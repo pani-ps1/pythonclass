@@ -2,6 +2,25 @@
 #sedaghat
 import sqlite3
 
+class Phonbook():
+    def __init__(self, read_phonbook, add_contact, show_phonbook, deletesql, menu):
+        def menu(self):
+            choice = input("ENTER CHOICE: ")
+            choice_menu = {'1' : self.read_phonbook,
+                            '2' : self.add_contact,
+                            '3' : self.show_phonbook,
+                            '4' : self.deletesql,
+                            '5' : self.search_phonbook}
+            if choice not in choice_menu.keys():
+                print("PLEASE ENTER A VALID CHOICE")
+            else:
+                choice_menu[choice]()
+
+        obj = Phonbook(self)
+print("phone book is = ",(obj))
+
+
+
 def read_phonbook():
     connection = sqlite3.connect("phonbook.db")
 
@@ -81,7 +100,7 @@ def deletesql(name):
         cursor = connection.cursor()
 
         update_query = """DELETE from phonebook where name = ?"""
-        cursor.execute(update_query, (name))
+        cursor.execute(update_query, (name,))
         connection.commit()
         print("deleted successfully")
 
@@ -96,3 +115,36 @@ def deletesql(name):
         connection.close()
 
 deletesql("pani")
+
+
+
+
+import sqlite3
+
+def search_phonbook():
+    try:
+        connection = sqlite3.connect("phonbook.db")
+
+        cursor = connection.cursor()
+
+        search_query = """ select * form phonbook WHERE name = ?"""
+        cursor.execute(serach_query, (name,))
+        records = cursor.fetchall()
+        print("showin name: ", name)
+        for row in records:
+            print("name = ",row[1])
+            print("number = ",row[2])
+            print("adress = ", row[3])
+
+        cursor.close()
+
+    except sqlite3.Error as erorr:
+        print("faild to read data", error)
+    finally:
+        if sqliteConnection:
+            sqliteConnection.close()
+            print(" the phonebook is closed")
+
+
+search_phonbook()
+phonbook()
